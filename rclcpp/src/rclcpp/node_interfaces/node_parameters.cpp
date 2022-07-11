@@ -90,8 +90,13 @@ NodeParameters::NodeParameters(
     parameter_event_publisher_options);
   publisher_options.allocator = std::make_shared<AllocatorT>();
 
+  std::shared_ptr<NodeParameters> shared_this () {
+    return shared_from_this();
+  }
+
+
   if (start_parameter_services) {
-    parameter_service_ = std::make_shared<ParameterService>(node_base, node_services, this);
+    parameter_service_ = std::make_shared<ParameterService>(node_base, node_services, this); // NOTE(brianc): parameter_service created here 
   }
 
   if (start_parameter_event_publisher) {

@@ -79,7 +79,7 @@ private:
 };
 
 /// Implementation of the NodeParameters part of the Node API.
-class NodeParameters : public NodeParametersInterface
+class NodeParameters : public NodeParametersInterface // , public std::enable_shared_from_this<NodeParameters>
 {
 public:
   RCLCPP_SMART_PTR_ALIASES_ONLY(NodeParameters)

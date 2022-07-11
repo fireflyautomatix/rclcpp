@@ -67,6 +67,7 @@ public:
     const rclcpp::node_interfaces::NodeTopicsInterface::SharedPtr node_topics_interface,
     const rclcpp::node_interfaces::NodeGraphInterface::SharedPtr node_graph_interface,
     const rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_interface,
+    const rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_interface,
     const std::string & remote_node_name = "",
     const rmw_qos_profile_t & qos_profile = rmw_qos_profile_parameters,
     rclcpp::CallbackGroup::SharedPtr group = nullptr);
@@ -89,6 +90,7 @@ public:
       node->get_node_topics_interface(),
       node->get_node_graph_interface(),
       node->get_node_services_interface(),
+      node->get_node_parameters_interface(),
       remote_node_name,
       qos_profile,
       group)
@@ -112,6 +114,7 @@ public:
       node->get_node_topics_interface(),
       node->get_node_graph_interface(),
       node->get_node_services_interface(),
+      node->get_node_parameters_interface(),
       remote_node_name,
       qos_profile,
       group)
@@ -328,6 +331,7 @@ public:
       node->get_node_topics_interface(),
       node->get_node_graph_interface(),
       node->get_node_services_interface(),
+      node->get_node_parameters_interface(),
       remote_node_name,
       qos_profile)
   {}
@@ -356,6 +360,7 @@ public:
       node->get_node_topics_interface(),
       node->get_node_graph_interface(),
       node->get_node_services_interface(),
+      node->get_node_parameters_interface(),
       remote_node_name,
       qos_profile)
   {}
@@ -367,6 +372,7 @@ public:
     const rclcpp::node_interfaces::NodeTopicsInterface::SharedPtr node_topics_interface,
     const rclcpp::node_interfaces::NodeGraphInterface::SharedPtr node_graph_interface,
     const rclcpp::node_interfaces::NodeServicesInterface::SharedPtr node_services_interface,
+    const rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_interface,
     const std::string & remote_node_name = "",
     const rmw_qos_profile_t & qos_profile = rmw_qos_profile_parameters)
   : executor_(executor), node_base_interface_(node_base_interface)
@@ -377,6 +383,7 @@ public:
       node_topics_interface,
       node_graph_interface,
       node_services_interface,
+      node_parameters_interface,
       remote_node_name,
       qos_profile);
   }

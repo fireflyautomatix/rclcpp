@@ -31,10 +31,15 @@ ParameterService::ParameterService(
   rclcpp::node_interfaces::NodeParametersInterface * node_params,
   const rmw_qos_profile_t & qos_profile)
 {
+  // TODO(ihasdapie): create_service takes a shared ptr to the param interface.
+  // It can probably take a regular ptr too
+  // Not sure if this would work
+  // auto node_params_shared_ptr = std::make_shared<rclcpp::node_interfaces::NodeParametersInterface>(*node_params);
+
   const std::string node_name = node_base->get_name();
 
   get_parameters_service_ = create_service<rcl_interfaces::srv::GetParameters>(
-    node_base, node_services,
+    node_base, node_services, node_params,
     node_name + "/" + parameter_service_names::get_parameters,
     [node_params](
       const std::shared_ptr<rmw_request_id_t>,
@@ -53,7 +58,7 @@ ParameterService::ParameterService(
     qos_profile, nullptr);
 
   get_parameter_types_service_ = create_service<rcl_interfaces::srv::GetParameterTypes>(
-    node_base, node_services,
+    node_base, node_services, node_params,
     node_name + "/" + parameter_service_names::get_parameter_types,
     [node_params](
       const std::shared_ptr<rmw_request_id_t>,
@@ -74,7 +79,7 @@ ParameterService::ParameterService(
     qos_profile, nullptr);
 
   set_parameters_service_ = create_service<rcl_interfaces::srv::SetParameters>(
-    node_base, node_services,
+    node_base, node_services, node_params,
     node_name + "/" + parameter_service_names::set_parameters,
     [node_params](
       const std::shared_ptr<rmw_request_id_t>,
@@ -99,7 +104,7 @@ ParameterService::ParameterService(
     qos_profile, nullptr);
 
   set_parameters_atomically_service_ = create_service<rcl_interfaces::srv::SetParametersAtomically>(
-    node_base, node_services,
+    node_base, node_services, node_params,
     node_name + "/" + parameter_service_names::set_parameters_atomically,
     [node_params](
       const std::shared_ptr<rmw_request_id_t>,
@@ -126,7 +131,7 @@ ParameterService::ParameterService(
     qos_profile, nullptr);
 
   describe_parameters_service_ = create_service<rcl_interfaces::srv::DescribeParameters>(
-    node_base, node_services,
+    node_base, node_services, node_params,
     node_name + "/" + parameter_service_names::describe_parameters,
     [node_params](
       const std::shared_ptr<rmw_request_id_t>,
@@ -143,14 +148,14 @@ ParameterService::ParameterService(
     qos_profile, nullptr);
 
   list_parameters_service_ = create_service<rcl_interfaces::srv::ListParameters>(
-    node_base, node_services,
+    node_base, node_services, node_params,
     node_name + "/" + parameter_service_names::list_parameters,
     [node_params](
       const std::shared_ptr<rmw_request_id_t>,
       const std::shared_ptr<rcl_interfaces::srv::ListParameters::Request> request,
       std::shared_ptr<rcl_interfaces::srv::ListParameters::Response> response)
     {
-      auto result = node_params->list_parameters(request->prefixes, request->depth);
+     auto result = node_params->list_parameters(request->prefixes, request->depth);
       response->result = result;
     },
     qos_profile, nullptr);

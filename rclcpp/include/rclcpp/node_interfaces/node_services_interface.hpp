@@ -18,6 +18,7 @@
 #include <string>
 
 #include "rclcpp/callback_group.hpp"
+#include "rclcpp/node_interfaces/node_parameters_interface.hpp"
 #include "rclcpp/client.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp/service.hpp"
@@ -43,14 +44,16 @@ public:
   void
   add_client(
     rclcpp::ClientBase::SharedPtr client_base_ptr,
-    rclcpp::CallbackGroup::SharedPtr group) = 0;
+    rclcpp::CallbackGroup::SharedPtr group,
+    rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_) = 0;
 
   RCLCPP_PUBLIC
   virtual
   void
   add_service(
     rclcpp::ServiceBase::SharedPtr service_base_ptr,
-    rclcpp::CallbackGroup::SharedPtr group) = 0;
+    rclcpp::CallbackGroup::SharedPtr group,
+    rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_) = 0;
 
   /// Get the remapped and expanded service name given a input name.
   RCLCPP_PUBLIC

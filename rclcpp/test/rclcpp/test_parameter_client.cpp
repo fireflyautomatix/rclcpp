@@ -77,7 +77,8 @@ TEST_F(TestParameterClient, async_construction_and_destruction) {
       node->get_node_base_interface(),
       node->get_node_topics_interface(),
       node->get_node_graph_interface(),
-      node->get_node_services_interface());
+      node->get_node_services_interface(),
+      node->get_node_parameters_interface());
     (void)asynchronous_client;
   }
 
@@ -113,7 +114,8 @@ TEST_F(TestParameterClient, sync_construction_and_destruction) {
       node->get_node_base_interface(),
       node->get_node_topics_interface(),
       node->get_node_graph_interface(),
-      node->get_node_services_interface());
+      node->get_node_services_interface(),
+      node->get_node_parameters_interface());
     (void)synchronous_client;
   }
 

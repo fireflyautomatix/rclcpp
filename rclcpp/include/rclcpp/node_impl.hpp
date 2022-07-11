@@ -131,6 +131,7 @@ Node::create_client(
     node_base_,
     node_graph_,
     node_services_,
+    node_parameters_,
     extend_name_with_sub_namespace(service_name, this->get_sub_namespace()),
     qos_profile,
     group);
@@ -147,6 +148,7 @@ Node::create_service(
   return rclcpp::create_service<ServiceT, CallbackT>(
     node_base_,
     node_services_,
+    node_parameters_,
     extend_name_with_sub_namespace(service_name, this->get_sub_namespace()),
     std::forward<CallbackT>(callback),
     qos_profile,

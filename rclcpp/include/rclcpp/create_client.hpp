@@ -20,6 +20,7 @@
 
 #include "rclcpp/node_interfaces/node_base_interface.hpp"
 #include "rclcpp/node_interfaces/node_services_interface.hpp"
+#include "rclcpp/node_interfaces/node_parameters_interface.hpp"
 #include "rmw/rmw.h"
 
 namespace rclcpp
@@ -33,6 +34,7 @@ create_client(
   std::shared_ptr<node_interfaces::NodeBaseInterface> node_base,
   std::shared_ptr<node_interfaces::NodeGraphInterface> node_graph,
   std::shared_ptr<node_interfaces::NodeServicesInterface> node_services,
+  std::shared_ptr<node_interfaces::NodeParametersInterface> node_parameters,
   const std::string & service_name,
   const rmw_qos_profile_t & qos_profile,
   rclcpp::CallbackGroup::SharedPtr group)
@@ -47,7 +49,7 @@ create_client(
     options);
 
   auto cli_base_ptr = std::dynamic_pointer_cast<rclcpp::ClientBase>(cli);
-  node_services->add_client(cli_base_ptr, group);
+  node_services->add_client(cli_base_ptr, group, node_parameters);
   return cli;
 }
 

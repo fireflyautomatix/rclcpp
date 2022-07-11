@@ -21,6 +21,7 @@
 #include "rclcpp/client.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp/node_interfaces/node_base_interface.hpp"
+#include "rclcpp/node_interfaces/node_parameters_interface.hpp"
 #include "rclcpp/node_interfaces/node_services_interface.hpp"
 #include "rclcpp/service.hpp"
 #include "rclcpp/visibility_control.hpp"
@@ -47,13 +48,15 @@ public:
   void
   add_client(
     rclcpp::ClientBase::SharedPtr client_base_ptr,
-    rclcpp::CallbackGroup::SharedPtr group) override;
+    rclcpp::CallbackGroup::SharedPtr group,
+    rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_) override;
 
   RCLCPP_PUBLIC
   void
   add_service(
     rclcpp::ServiceBase::SharedPtr service_base_ptr,
-    rclcpp::CallbackGroup::SharedPtr group) override;
+    rclcpp::CallbackGroup::SharedPtr group,
+    rclcpp::node_interfaces::NodeParametersInterface::SharedPtr node_parameters_) override;
 
   RCLCPP_PUBLIC
   std::string

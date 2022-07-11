@@ -83,7 +83,7 @@ TEST_F(TestNodeService, add_service)
   auto service = std::make_shared<TestService>(node.get());
   auto callback_group = node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
   EXPECT_NO_THROW(
-    node_services->add_service(service, callback_group));
+    node_services->add_service(service, callback_group, node->get_node_parameters_interface()));
 
   // Check that adding a service from node to a callback group of different_node throws exception.
   std::shared_ptr<rclcpp::Node> different_node = std::make_shared<rclcpp::Node>("node2", "ns");
@@ -91,7 +91,7 @@ TEST_F(TestNodeService, add_service)
   auto callback_group_in_different_node =
     different_node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
   RCLCPP_EXPECT_THROW_EQ(
-    node_services->add_service(service, callback_group_in_different_node),
+    node_services->add_service(service, callback_group_in_different_node, different_node->get_node_parameters_interface()),
     std::runtime_error("Cannot create service, group not in node."));
 }
 
@@ -102,7 +102,7 @@ TEST_F(TestNodeService, add_service_rcl_trigger_guard_condition_error)
   auto mock = mocking_utils::patch_and_return(
     "lib:rclcpp", rcl_trigger_guard_condition, RCL_RET_ERROR);
   RCLCPP_EXPECT_THROW_EQ(
-    node_services->add_service(service, callback_group),
+    node_services->add_service(service, callback_group, node->get_node_parameters_interface()),
     std::runtime_error("failed to notify wait set on service creation: error not set"));
 }
 
@@ -110,7 +110,7 @@ TEST_F(TestNodeService, add_client)
 {
   auto client = std::make_shared<TestClient>(node.get());
   auto callback_group = node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-  EXPECT_NO_THROW(node_services->add_client(client, callback_group));
+  EXPECT_NO_THROW(node_services->add_client(client, callback_group, node->get_node_parameters_interface()));
 
   // Check that adding a client from node to a callback group of different_node throws exception.
   std::shared_ptr<rclcpp::Node> different_node = std::make_shared<rclcpp::Node>("node2", "ns");
@@ -118,7 +118,7 @@ TEST_F(TestNodeService, add_client)
   auto callback_group_in_different_node =
     different_node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
   RCLCPP_EXPECT_THROW_EQ(
-    node_services->add_client(client, callback_group_in_different_node),
+    node_services->add_client(client, callback_group_in_different_node, different_node->get_node_parameters_interface()),
     std::runtime_error("Cannot create client, group not in node."));
 }
 
@@ -129,7 +129,7 @@ TEST_F(TestNodeService, add_client_rcl_trigger_guard_condition_error)
   auto mock = mocking_utils::patch_and_return(
     "lib:rclcpp", rcl_trigger_guard_condition, RCL_RET_ERROR);
   RCLCPP_EXPECT_THROW_EQ(
-    node_services->add_client(client, callback_group),
+    node_services->add_client(client, callback_group, node->get_node_parameters_interface()),
     std::runtime_error("failed to notify wait set on client creation: error not set"));
 }
 
