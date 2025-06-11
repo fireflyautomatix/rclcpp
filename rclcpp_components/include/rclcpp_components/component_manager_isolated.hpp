@@ -65,7 +65,7 @@ protected:
     executor_wrapper.executor = exec;
     auto name = node_wrappers_[node_id].get_node_base_interface()->get_name();
     executor_wrapper.thread = std::thread(
-      [exec, &name]() {
+      [exec, name]() {
         rclcpp::detail::set_thread_name(name);
         exec->spin();
       });
