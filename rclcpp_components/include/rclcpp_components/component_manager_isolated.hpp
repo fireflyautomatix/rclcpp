@@ -24,7 +24,7 @@
 #include <unordered_map>
 
 #include "rclcpp_components/component_manager.hpp"
-
+#include "rclcpp/detail/os_thread.hpp"
 
 namespace rclcpp_components
 {
@@ -63,10 +63,13 @@ protected:
     auto exec = std::make_shared<ExecutorT>();
     exec->add_node(node_wrappers_[node_id].get_node_base_interface());
     executor_wrapper.executor = exec;
+    auto name = node_wrappers_[node_id].get_node_base_interface()->get_name();
     executor_wrapper.thread = std::thread(
-      [exec]() {
+      [exec, &name]() {
+        rclcpp::detail::set_thread_name(name);
         exec->spin();
       });
+
     dedicated_executor_wrappers_[node_id] = std::move(executor_wrapper);
   }
   /// Remove component node from executor model, it's invoked in on_unload_node()
